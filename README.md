@@ -1,6 +1,12 @@
 # FloodSight 🌊 — Full-Stack AI Flood Intelligence
 
 A frontend flood simulation dashboard powered by a **PyTorch LSTM** backend served via **FastAPI**, with live weather data from **OpenWeatherMap**.
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/73b1f822-870e-47d3-b9e6-b4071de0efb8" />
+![WhatsApp Image 2026-03-26 at 4 42 52 PM](https://github.com/user-attachments/assets/280b569d-934e-4ab1-9126-7161c7a9aa4c)
+![WhatsApp Image 2026-03-26 at 4 39 33 PM](https://github.com/user-attachments/assets/b40c408a-b113-425e-9182-e0ace76cac6a)
+![WhatsApp Image 2026-03-26 at 4 41 56 PM](https://github.com/user-attachments/assets/677e8506-3e32-410d-b4e2-053647688987)
+![WhatsApp Image 2026-03-26 at 4 42 20 PM](https://github.com/user-attachments/assets/c48e0715-c617-4a2c-a8d3-589c6939283a)
+
 
 ---
 
