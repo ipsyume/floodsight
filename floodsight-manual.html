@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FloodSight Manual 🌊 — Complete User Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sakura:   #ffb7c5;
+  --lavender: #c9b8ff;
+  --mint:     #b8f2e0;
+  --sky:      #bde8ff;
+  --sun:      #ffe599;
+  --coral:    #ff9eb5;
+  --water:    #6dc8e8;
+  --deepwater:#3a9bbf;
+  --danger:   #ff7096;
+  --warn:     #ffb347;
+  --safe:     #7de8b0;
+  --card:     rgba(255,255,255,0.82);
+  --txt:      #4a3550;
+  --txt2:     #9a7a9e;
+  --shadow:   rgba(180,100,140,0.11);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(135deg,#f5eeff 0%,#eaf4ff 40%,#f0fff8 100%);
+  color:var(--txt);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── FLOATING BG PARTICLES ── */
+.bg-floats{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.float-item{position:absolute;opacity:0.09;animation:floatUp linear infinite;user-select:none;font-size:1.4rem;}
+@keyframes floatUp{
+  0%{transform:translateY(108vh) rotate(0deg);opacity:0;}
+  8%{opacity:0.09;}92%{opacity:0.09;}
+  100%{transform:translateY(-8vh) rotate(340deg);opacity:0;}
+}
+
+/* ── CURSOR ── */
+#kursor{position:fixed;z-index:9999;pointer-events:none;top:0;left:0;font-size:20px;will-change:transform;transform:translate(-999px,-999px);}
+body{cursor:none;}
+
+/* ── SCROLL PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:1000;
+  background:linear-gradient(90deg,var(--water),var(--lavender),var(--coral),var(--mint));
+  transition:width .1s;
+  box-shadow:0 0 8px rgba(109,200,232,.6);
+}
+
+/* ── HEADER ── */
+#header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,238,255,0.88);
+  backdrop-filter:blur(22px);
+  border-bottom:2px solid rgba(200,180,230,0.3);
+  padding:12px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 4px 24px rgba(180,100,140,.08);
+}
+.logo-area{display:flex;align-items:center;gap:12px;}
+.logo-drop{font-size:2.2rem;animation:wiggle 4s ease-in-out infinite;display:inline-block;}
+@keyframes wiggle{0%,100%{transform:rotate(-4deg)}25%{transform:rotate(4deg)}50%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
+.logo-title{
+  font-family:'Fredoka One',cursive;font-size:1.7rem;
+  background:linear-gradient(90deg,var(--water),var(--lavender),var(--coral),var(--water),var(--lavender));
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.logo-sub{font-size:.58rem;color:var(--txt2);letter-spacing:2.5px;text-transform:uppercase;margin-top:1px;}
+.header-badge{
+  display:flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,rgba(189,232,255,.35),rgba(201,184,255,.3));
+  border:1.5px solid rgba(109,200,232,.4);border-radius:100px;padding:5px 14px;
+  font-family:'Fredoka One',cursive;font-size:.75rem;color:var(--deepwater);
+}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--safe);box-shadow:0 0 8px var(--safe);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}pulse}
+
+/* ── NAV SIDEBAR ── */
+#toc{
+  position:fixed;left:0;top:72px;bottom:0;width:220px;
+  padding:20px 14px;overflow-y:auto;z-index:50;
+  scrollbar-width:thin;scrollbar-color:rgba(109,200,232,.3) transparent;
+}
+.toc-title{font-family:'Fredoka One',cursive;font-size:.72rem;letter-spacing:2px;color:var(--txt2);text-transform:uppercase;margin-bottom:14px;padding-left:8px;}
+.toc-link{
+  display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:12px;
+  font-size:.72rem;font-weight:700;color:var(--txt2);text-decoration:none;
+  transition:all .2s;margin-bottom:2px;
+}
+.toc-link:hover,.toc-link.active{background:linear-gradient(135deg,rgba(189,232,255,.45),rgba(201,184,255,.35));color:var(--txt);transform:translateX(3px);}
+.toc-link .toc-icon{font-size:.95rem;width:22px;text-align:center;flex-shrink:0;}
+.toc-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(109,200,232,.3),transparent);margin:10px 4px;}
+
+/* ── MAIN CONTENT ── */
+#main{
+  margin-left:220px;padding:36px 48px 80px;
+  max-width:1100px;
+}
+
+/* ── HERO ── */
+#hero{
+  text-align:center;padding:60px 20px 50px;
+  position:relative;
+}
+.hero-emoji{font-size:4.5rem;display:block;margin-bottom:16px;animation:heroFloat 3s ease-in-out infinite;}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-title{
+  font-family:'Fredoka One',cursive;font-size:3.2rem;
+  background:linear-gradient(135deg,var(--water),var(--lavender),var(--coral));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:12px;line-height:1.15;
+}
+.hero-sub{font-size:1.05rem;color:var(--txt2);font-weight:600;max-width:580px;margin:0 auto 28px;line-height:1.6;}
+.hero-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.chip{
+  padding:6px 16px;border-radius:100px;font-family:'Fredoka One',cursive;font-size:.75rem;
+  border:2px solid;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.5) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.chip-water{background:rgba(109,200,232,.15);border-color:var(--water);color:var(--deepwater);}
+.chip-lavender{background:rgba(201,184,255,.15);border-color:var(--lavender);color:#7a60c0;}
+.chip-coral{background:rgba(255,158,181,.15);border-color:var(--coral);color:#c0406a;}
+.chip-mint{background:rgba(184,242,224,.2);border-color:var(--mint);color:#2a9070;}
+.hero-wave{position:absolute;bottom:0;left:0;right:0;height:40px;opacity:.3;}
+
+/* ── SECTION CARD ── */
+.section{
+  margin-bottom:52px;
+  animation:fadeUp .6s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.section-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:24px;
+  padding-bottom:14px;border-bottom:2px solid rgba(200,180,230,.25);
+}
+.section-icon{
+  width:46px;height:46px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+  background:linear-gradient(135deg,rgba(189,232,255,.55),rgba(201,184,255,.45));
+  border:2px solid rgba(200,180,230,.35);flex-shrink:0;
+  box-shadow:0 4px 14px rgba(180,100,140,.1);
+}
+.section-num{
+  font-family:'Fredoka One',cursive;font-size:.65rem;letter-spacing:2px;
+  color:var(--water);text-transform:uppercase;display:block;
+}
+.section-title{font-family:'Fredoka One',cursive;font-size:1.6rem;color:var(--txt);line-height:1.1;}
+
+/* ── FEATURE CARD ── */
+.card{
+  background:var(--card);
+  backdrop-filter:blur(18px);
+  border:2px solid rgba(200,180,230,0.3);
+  border-radius:22px;padding:22px 24px;
+  box-shadow:0 4px 22px var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;overflow:hidden;
+  margin-bottom:16px;
+  transition:transform .2s,box-shadow .2s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 36px var(--shadow);}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--water) 15%,var(--lavender) 40%,var(--mint) 65%,var(--sky) 85%,transparent);
+  border-radius:22px 22px 0 0;pointer-events:none;
+}
+.card-title{
+  font-family:'Fredoka One',cursive;font-size:1.05rem;color:var(--txt);
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.card-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--water),var(--lavender));
+  box-shadow:0 0 6px rgba(109,200,232,.5);
+  animation:dotPop 2s infinite;
+}
+@keyframes dotPop{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+.card p{font-size:.82rem;color:var(--txt);line-height:1.75;margin-bottom:8px;}
+.card p:last-child{margin-bottom:0;}
+
+/* ── TWO COLUMN GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:800px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+/* ── STEPS ── */
+.steps{counter-reset:step;display:flex;flex-direction:column;gap:14px;}
+.step{
+  display:flex;gap:16px;align-items:flex-start;
+  background:rgba(255,255,255,.6);border:1.5px solid rgba(200,180,230,.25);
+  border-radius:18px;padding:16px 18px;
+  transition:transform .2s;
+}
+.step:hover{transform:translateX(4px);}
+.step-num{
+  width:34px;height:34px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--water),var(--lavender));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fredoka One',cursive;font-size:.95rem;color:#fff;
+  box-shadow:0 3px 10px rgba(109,200,232,.4);
+}
+.step-content .step-title{font-family:'Fredoka One',cursive;font-size:.88rem;color:var(--txt);margin-bottom:4px;}
+.step-content p{font-size:.78rem;color:var(--txt2);line-height:1.65;}
+
+/* ── TIP BOX ── */
+.tip{
+  display:flex;gap:12px;align-items:flex-start;
+  background:linear-gradient(135deg,rgba(184,242,224,.35),rgba(189,232,255,.25));
+  border:1.5px solid rgba(109,200,232,.35);
+  border-radius:16px;padding:14px 16px;margin:14px 0;
+}
+.tip-icon{font-size:1.25rem;flex-shrink:0;margin-top:1px;}
+.tip p{font-size:.78rem;color:var(--txt);line-height:1.65;}
+.tip strong{color:var(--deepwater);}
+
+.warn-box{
+  display:flex;gap:12px;align-items:flex-start;
+  background:linear-gradient(135deg,rgba(255,214,153,.25),rgba(255,183,71,.15));
+  border:1.5px solid rgba(255,183,71,.45);
+  border-radius:16px;padding:14px 16px;margin:14px 0;
+}
+.warn-box p{font-size:.78rem;color:#7a4a10;line-height:1.65;}
+
+/* ── BADGE LIST ── */
+.badge-list{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+.badge{
+  padding:4px 12px;border-radius:100px;font-size:.7rem;font-weight:800;
+  font-family:'Fredoka One',cursive;letter-spacing:.5px;
+}
+.badge-blue{background:rgba(109,200,232,.18);color:var(--deepwater);border:1.5px solid rgba(109,200,232,.4);}
+.badge-purple{background:rgba(201,184,255,.2);color:#6a50b8;border:1.5px solid rgba(201,184,255,.5);}
+.badge-green{background:rgba(125,232,176,.2);color:#1a6040;border:1.5px solid rgba(125,232,176,.45);}
+.badge-coral{background:rgba(255,158,181,.18);color:#a03050;border:1.5px solid rgba(255,158,181,.45);}
+.badge-sun{background:rgba(255,229,153,.25);color:#7a5000;border:1.5px solid rgba(255,199,71,.4);}
+
+/* ── FEATURE TABLE ── */
+.feat-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.feat-table th{
+  text-align:left;padding:10px 14px;
+  font-family:'Fredoka One',cursive;font-size:.72rem;letter-spacing:1px;color:var(--txt2);
+  border-bottom:2px solid rgba(200,180,230,.3);
+}
+.feat-table td{
+  padding:10px 14px;border-bottom:1px solid rgba(200,180,230,.15);
+  color:var(--txt);line-height:1.6;vertical-align:top;
+}
+.feat-table tr:hover td{background:rgba(189,232,255,.12);}
+.feat-table td:first-child{font-weight:800;color:var(--deepwater);white-space:nowrap;}
+
+/* ── KAWAII HIGHLIGHT ── */
+.kawaii-box{
+  background:linear-gradient(135deg,rgba(255,183,197,.15),rgba(201,184,255,.15),rgba(189,232,255,.15));
+  border:2px solid rgba(200,180,230,.35);border-radius:22px;padding:24px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.kawaii-box .k-emoji{font-size:2.8rem;display:block;margin-bottom:10px;animation:heroFloat 2.5s ease-in-out infinite;}
+.kawaii-box .k-title{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--txt);margin-bottom:6px;}
+.kawaii-box p{font-size:.78rem;color:var(--txt2);line-height:1.65;}
+
+/* ── EXPRESSION GRID ── */
+.expr-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.expr-card{
+  background:rgba(255,255,255,.7);border:1.5px solid rgba(200,180,230,.3);
+  border-radius:16px;padding:12px 8px;text-align:center;
+  transition:transform .2s;
+}
+.expr-card:hover{transform:scale(1.06);}
+.expr-card .expr-ico{font-size:1.6rem;display:block;margin-bottom:5px;}
+.expr-card .expr-name{font-family:'Fredoka One',cursive;font-size:.65rem;color:var(--txt2);}
+
+/* ── SLIDER VISUAL ── */
+.slider-demo{
+  background:rgba(255,255,255,.55);border:1.5px solid rgba(200,180,230,.25);
+  border-radius:16px;padding:14px 18px;margin-bottom:10px;
+}
+.slider-demo-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.slider-demo-name{font-family:'Fredoka One',cursive;font-size:.82rem;color:var(--txt);}
+.slider-demo-val{font-family:'Fredoka One',cursive;font-size:.82rem;
+  background:linear-gradient(90deg,var(--water),var(--lavender));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.slider-track{height:7px;border-radius:7px;background:linear-gradient(90deg,var(--water),var(--lavender),var(--coral));position:relative;}
+.slider-thumb{
+  width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--water),var(--lavender));
+  position:absolute;top:50%;transform:translateY(-50%);
+  box-shadow:0 2px 10px rgba(109,200,232,.5),0 0 0 3px rgba(255,255,255,.9);
+}
+.slider-desc{font-size:.72rem;color:var(--txt2);margin-top:6px;line-height:1.55;}
+
+/* ── CITY PILLS ── */
+.city-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;}
+.city-pill{
+  padding:14px 10px;border-radius:18px;text-align:center;cursor:pointer;
+  background:rgba(255,255,255,.6);border:2px solid rgba(200,180,230,.3);
+  transition:all .2s;
+}
+.city-pill:hover{background:linear-gradient(135deg,rgba(189,232,255,.4),rgba(201,184,255,.35));border-color:var(--water);transform:translateY(-3px);box-shadow:0 6px 18px rgba(109,200,232,.22);}
+.city-pill .c-flag{font-size:1.5rem;display:block;margin-bottom:5px;}
+.city-pill .c-name{font-family:'Fredoka One',cursive;font-size:.75rem;color:var(--txt);}
+.city-pill .c-note{font-size:.6rem;color:var(--txt2);margin-top:2px;}
+
+/* ── FOOTER ── */
+#footer{
+  margin-left:220px;padding:28px 48px;
+  border-top:2px solid rgba(200,180,230,.25);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(245,238,255,.6);backdrop-filter:blur(10px);
+}
+.footer-logo{font-family:'Fredoka One',cursive;font-size:1.1rem;
+  background:linear-gradient(90deg,var(--water),var(--lavender));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.footer-note{font-size:.68rem;color:var(--txt2);text-align:right;}
+
+/* ── SCROLL-IN ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── BACK TO TOP ── */
+#back-top{
+  position:fixed;bottom:28px;right:28px;z-index:200;
+  width:44px;height:44px;border-radius:14px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--water),var(--lavender));
+  box-shadow:0 4px 16px rgba(109,200,232,.4);
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s,transform .2s;
+}
+#back-top.show{opacity:1;}
+#back-top:hover{transform:translateY(-3px);}
+
+/* ── KAWAII WAVE SVG ── */
+.kawaii-wave-svg {
+  animation: waveRock 3s ease-in-out infinite, waveFloat 4s ease-in-out infinite;
+  filter: drop-shadow(0 6px 18px rgba(109,200,232,0.45));
+  display: block;
+  margin: 0 auto 16px;
+}
+@keyframes waveRock {
+  0%,100% { transform: rotate(-4deg) scaleX(1); }
+  25%      { transform: rotate(3deg)  scaleX(1.04); }
+  50%      { transform: rotate(-2deg) scaleX(0.98); }
+  75%      { transform: rotate(3.5deg) scaleX(1.03); }
+}
+@keyframes waveFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ── SHIMMER CARDS ── */
+.card::after {
+  content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.18) 50%,transparent 60%);
+  background-size:200% 100%;
+  animation:cardShimmer 4s ease-in-out infinite;
+  opacity:0;transition:opacity .3s;
+}
+.card:hover::after { opacity:1; }
+@keyframes cardShimmer {
+  0%   { background-position:200% 0; }
+  100% { background-position:-200% 0; }
+}
+
+/* ── GLOWING SECTION ICONS ── */
+.section-icon {
+  animation: iconGlow 3s ease-in-out infinite;
+}
+@keyframes iconGlow {
+  0%,100% { box-shadow:0 4px 14px rgba(180,100,140,.1); }
+  50%      { box-shadow:0 4px 24px rgba(109,200,232,.45), 0 0 0 4px rgba(109,200,232,.1); }
+}
+
+/* ── HERO TITLE GRADIENT WAVE ── */
+.hero-title {
+  animation: heroGradShift 5s ease-in-out infinite;
+  background-size: 400% 100%;
+}
+@keyframes heroGradShift {
+  0%   { background-position:0% 50%; }
+  50%  { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+
+/* ── CHIP HOVER BOUNCE ── */
+.chip {
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s;
+}
+.chip:hover {
+  transform: translateY(-4px) scale(1.07);
+  box-shadow: 0 8px 22px rgba(109,200,232,.28);
+}
+
+/* ── BADGE PULSE HOVER ── */
+.badge {
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+  display: inline-block;
+}
+.badge:hover {
+  transform: scale(1.12) translateY(-2px);
+  box-shadow: 0 4px 14px rgba(109,200,232,.3);
+}
+
+/* ── STEP ICON SHINE ── */
+.step-num {
+  animation: stepShine 4s ease-in-out infinite;
+}
+@keyframes stepShine {
+  0%,100% { box-shadow: 0 3px 10px rgba(109,200,232,.4); }
+  50%      { box-shadow: 0 3px 20px rgba(109,200,232,.7), 0 0 0 6px rgba(109,200,232,.1); }
+}
+
+/* ── KAWAII BOX AURORA BG ── */
+.kawaii-box::before {
+  content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;z-index:0;
+  background:linear-gradient(60deg,
+    rgba(255,183,197,.18) 0%,
+    rgba(201,184,255,.18) 25%,
+    rgba(189,232,255,.18) 50%,
+    rgba(184,242,224,.18) 75%,
+    rgba(255,229,153,.12) 100%);
+  background-size:400% 400%;
+  animation:auroraBG 7s ease-in-out infinite;
+}
+.kawaii-box > * { position:relative;z-index:1; }
+@keyframes auroraBG {
+  0%,100% { background-position:0% 50%; }
+  50%      { background-position:100% 50%; }
+}
+
+/* ── CARD DOT RAINBOW ── */
+.card-dot {
+  animation: dotRainbow 3s linear infinite, dotPop 2s ease-in-out infinite;
+}
+@keyframes dotRainbow {
+  0%   { background: linear-gradient(135deg,#6dc8e8,#c9b8ff); }
+  25%  { background: linear-gradient(135deg,#ffb7c5,#6dc8e8); }
+  50%  { background: linear-gradient(135deg,#b8f2e0,#ffb7c5); }
+  75%  { background: linear-gradient(135deg,#ffe599,#b8f2e0); }
+  100% { background: linear-gradient(135deg,#6dc8e8,#c9b8ff); }
+}
+
+/* ── LIVE DOT ── */
+@keyframes pulse {
+  0%,100% { transform:scale(1);   box-shadow:0 0 6px var(--safe); }
+  50%      { transform:scale(1.8); box-shadow:0 0 14px var(--safe),0 0 28px rgba(125,232,176,.4); }
+}
+
+/* ── SCROLL PROGRESS GLOW ── */
+#progress-bar {
+  box-shadow: 0 0 10px rgba(109,200,232,.7), 0 0 22px rgba(201,184,255,.4);
+  height: 4px;
+}
+
+/* ── REVEAL STAGGER EFFECT ── */
+.reveal { transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
+
+/* ── RIPPLE ON CARDS ── */
+@keyframes rippleCard {
+  0%   { transform:scale(0);opacity:.5; }
+  100% { transform:scale(4);opacity:0; }
+}
+.card .ripple-circle {
+  position:absolute;border-radius:50%;background:rgba(109,200,232,.25);
+  width:60px;height:60px;margin-left:-30px;margin-top:-30px;
+  pointer-events:none;animation:rippleCard .7s ease-out forwards;
+}
+
+/* ── TWINKLING SPARKLE DOTS (BG EXTRAS) ── */
+.sparkle-dot {
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  animation:twinkle var(--tw-dur,3s) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity:0;transform:scale(0.5); }
+  50%      { opacity:var(--tw-op,.5);transform:scale(1); }
+}
+
+/* ── HEADER LOGO WAVE ── */
+.logo-drop { animation:wiggle 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite; }
+@keyframes logoGlow {
+  0%,100% { filter:drop-shadow(0 2px 6px rgba(109,200,232,.3)); }
+  50%      { filter:drop-shadow(0 2px 16px rgba(109,200,232,.7)); }
+}
+
+/* ── BACK TO TOP PULSE ── */
+#back-top.show {
+  animation:backTopBounce 2s ease-in-out infinite;
+}
+@keyframes backTopBounce {
+  0%,100% { transform:translateY(0); box-shadow:0 4px 16px rgba(109,200,232,.4); }
+  50%      { transform:translateY(-4px); box-shadow:0 8px 28px rgba(109,200,232,.65); }
+}
+
+/* ── STAGGERED CHIP RAINBOW ── */
+.chip-water   { animation-delay:.0s; }
+.chip-lavender{ animation-delay:.1s; }
+.chip-coral   { animation-delay:.2s; }
+.chip-mint    { animation-delay:.3s; }
+
+/* ── SLIDER TRACK FLOW ── */
+.slider-track {
+  background: linear-gradient(90deg,var(--water),var(--lavender),var(--coral),var(--water));
+  background-size:200% 100%;
+  animation: trackFlow 3s linear infinite;
+}
+@keyframes trackFlow {
+  0%   { background-position:0% 0; }
+  100% { background-position:200% 0; }
+}
+
+/* ── CITY PILL GLOW ── */
+.city-pill:hover {
+  box-shadow: 0 6px 22px rgba(109,200,232,.35), 0 0 0 3px rgba(109,200,232,.15);
+}
+
+/* ── SPARKLE OUT ── */
+@keyframes sparkleOut{
+  0%  {opacity:1;transform:var(--tx,translate(0,0)) scale(1);}
+  100%{opacity:0;transform:var(--tx,translate(0,0)) scale(.3) translateY(-20px);}
+}
+
+/* ── WATER RIPPLE BG ── */
+.water-ring {
+  position:fixed;border-radius:50%;border:2px solid rgba(109,200,232,.18);
+  pointer-events:none;z-index:0;
+  animation:waterExpand var(--wr-dur,8s) ease-out infinite;
+}
+@keyframes waterExpand {
+  0%   { transform:scale(0);opacity:.7; }
+  100% { transform:scale(3);opacity:0; }
+}
+
+
+/* ── FLOATING BUBBLES (hero + kawaii-box icon) ── */
+.bubble-cluster {
+  position:relative;display:inline-block;
+  width:90px;height:90px;margin:0 auto 16px;
+  animation:heroFloat 4s ease-in-out infinite;
+}
+.bubble {
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,0.88) 0%,rgba(189,232,255,0.55) 35%,rgba(109,200,232,0.35) 70%,rgba(58,155,191,0.18) 100%);
+  border:1.5px solid rgba(255,255,255,0.8);
+  box-shadow:inset 2px 3px 6px rgba(255,255,255,0.7),inset -1px -2px 5px rgba(109,200,232,0.3),0 4px 18px rgba(109,200,232,0.22);
+  animation:bubbleFloat var(--bd,4s) ease-in-out infinite var(--bdelay,0s), bubbleShimmer var(--bs,3s) ease-in-out infinite var(--bdelay,0s);
+}
+.bubble::before {
+  content:'';position:absolute;border-radius:50%;
+  width:35%;height:22%;top:18%;left:20%;
+  background:radial-gradient(ellipse,rgba(255,255,255,0.9) 0%,rgba(255,255,255,0) 100%);
+  transform:rotate(-30deg);
+}
+.bubble::after {
+  content:'';position:absolute;border-radius:50%;
+  width:16%;height:12%;top:58%;left:60%;
+  background:rgba(255,255,255,0.6);
+}
+@keyframes bubbleFloat {
+  0%,100%{transform:translateY(0) scale(1);}
+  40%    {transform:translateY(-9px) scale(1.04);}
+  70%    {transform:translateY(-5px) scale(0.97);}
+}
+@keyframes bubbleShimmer {
+  0%,100%{box-shadow:inset 2px 3px 6px rgba(255,255,255,0.7),inset -1px -2px 5px rgba(109,200,232,0.3),0 4px 18px rgba(109,200,232,0.22);}
+  50%    {box-shadow:inset 2px 3px 10px rgba(255,255,255,0.95),inset -1px -2px 8px rgba(201,184,255,0.45),0 8px 30px rgba(109,200,232,0.5),0 0 28px rgba(201,184,255,0.22);}
+}
+.b1{width:54px;height:54px;bottom:6px;left:14px;--bd:5s;--bdelay:0s;--bs:4s;}
+.b2{width:36px;height:36px;top:8px;left:36px;--bd:4.2s;--bdelay:-1.3s;--bs:3.5s;}
+.b3{width:22px;height:22px;top:26px;right:6px;--bd:3.5s;--bdelay:-0.7s;--bs:2.8s;}
+.b4{width:15px;height:15px;bottom:20px;right:10px;--bd:6s;--bdelay:-2s;--bs:5s;}
+.b5{width:11px;height:11px;top:4px;left:10px;--bd:4.8s;--bdelay:-3s;--bs:4s;}
+
+/* ── KAWAII BLINK EYES ("oo" in FloodSight title) ── */
+.eye-pair{display:inline-flex;gap:4px;align-items:center;vertical-align:middle;position:relative;top:-5px;margin:0 2px;}
+.kawaii-eye{
+  width:22px;height:22px;border-radius:50%;
+  background:white;
+  border:2px solid rgba(109,200,232,0.45);
+  box-shadow:0 2px 10px rgba(109,200,232,0.35),inset 0 1px 3px rgba(255,255,255,0.8);
+  position:relative;overflow:hidden;display:inline-block;
+  animation:eyeBlink 2.5s ease-in-out infinite;
+}
+.kawaii-eye:nth-child(2){animation-delay:0s;}
+.kawaii-eye::before{
+  content:'';position:absolute;
+  width:12px;height:12px;border-radius:50%;
+  background:radial-gradient(circle at 35% 32%,#7dd4f0 0%,#3a9bbf 55%,#1e5a80 100%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.kawaii-eye::after{
+  content:'';position:absolute;
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(255,255,255,0.95);
+  top:24%;left:52%;
+}
+@keyframes eyeBlink{
+  0%,86%,100%{transform:scaleY(1);}
+  90%         {transform:scaleY(0.06);}
+  94%         {transform:scaleY(1);}
+  97%         {transform:scaleY(0.06);}
+}
+
+/* hero title block */
+.hero-title-wrap{font-family:'Fredoka One',cursive;font-size:3.2rem;margin-bottom:12px;line-height:1.3;display:block;text-align:center;}
+.ht-grad{
+  background:linear-gradient(135deg,var(--water),var(--lavender),var(--coral));
+  background-size:400% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:heroGradShift 5s ease-in-out infinite;
+  display:inline;
+}
+
+@media(max-width:900px){
+  #toc{display:none;}
+  #main,#footer{margin-left:0;}
+  #main{padding:24px 20px 60px;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="kursor">💧</div>
+
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Floating BG -->
+<div class="bg-floats" id="bg-floats"></div>
+
+<!-- Scroll canvas for sakura -->
+<canvas id="sakura-cv" style="position:fixed;inset:0;pointer-events:none;z-index:1;"></canvas>
+
+<!-- Header -->
+<div id="header">
+  <div class="logo-area">
+    <span class="logo-drop">💧</span>
+    <div>
+      <div class="logo-title">FloodSight Manual ♡</div>
+      <div class="logo-sub">Complete User Guide · by Ipsa · 2026</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <div class="header-badge"><span class="live-dot"></span>v22 · Full Guide</div>
+    <div class="header-badge">🌊 20 Features</div>
+  </div>
+</div>
+
+<!-- TOC Sidebar -->
+<nav id="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#hero" class="toc-link"><span class="toc-icon"><svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" width="18" height="14"><path d="M1 13 Q4 5 7 7 Q10 9 12 3 Q14 -1 17 3 Q20 7 22 5 L23 4 L23 16 Q12 19 1 16 Z" fill="#6dc8e8" opacity="0.9"/><path d="M1 13 Q4 5 7 7 Q10 9 12 3 Q14 -1 17 3 Q20 7 22 5" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1" stroke-linecap="round"/></svg></span>Overview</a>
+  <a href="#quickstart" class="toc-link"><span class="toc-icon">🚀</span>Quick Start</a>
+  <div class="toc-sep"></div>
+  <a href="#controls" class="toc-link"><span class="toc-icon">🎛️</span>Sim Controls</a>
+  <a href="#cities" class="toc-link"><span class="toc-icon">🏙️</span>City Locations</a>
+  <a href="#views" class="toc-link"><span class="toc-icon">👁️</span>View Modes</a>
+  <a href="#3dview" class="toc-link"><span class="toc-icon">🗻</span>3D Iso View</a>
+  <a href="#citymap" class="toc-link"><span class="toc-icon">🗺️</span>City Map</a>
+  <div class="toc-sep"></div>
+  <a href="#weather" class="toc-link"><span class="toc-icon">🌤️</span>Live Weather</a>
+  <a href="#typhoon" class="toc-link"><span class="toc-icon">🌀</span>Typhoon Replay</a>
+  <a href="#ai" class="toc-link"><span class="toc-icon">🤖</span>AI Forecast</a>
+  <a href="#population" class="toc-link"><span class="toc-icon">👥</span>Population Risk</a>
+  <a href="#evacuation" class="toc-link"><span class="toc-icon">🚗</span>Evacuation</a>
+  <a href="#tanklevel" class="toc-link"><span class="toc-icon">💧</span>Water Tank</a>
+  <div class="toc-sep"></div>
+  <a href="#kawaii" class="toc-link"><span class="toc-icon">🐟</span>Kawaii Features</a>
+  <a href="#dropicon" class="toc-link"><span class="toc-icon">😊</span>Drop Expressions</a>
+  <a href="#mascot" class="toc-link"><span class="toc-icon">🐠</span>Suki-chan</a>
+  <a href="#cursor" class="toc-link"><span class="toc-icon">✨</span>Cursor & FX</a>
+  <a href="#nightmode" class="toc-link"><span class="toc-icon">🌙</span>Night Mode</a>
+  <a href="#sound" class="toc-link"><span class="toc-icon">🔊</span>Sound Engine</a>
+  <div class="toc-sep"></div>
+  <a href="#ar" class="toc-link"><span class="toc-icon">📱</span>AR Mode</a>
+  <a href="#report" class="toc-link"><span class="toc-icon">📄</span>Flood Report</a>
+  <a href="#tips" class="toc-link"><span class="toc-icon">💡</span>Pro Tips</a>
+</nav>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- ── HERO ── -->
+  <section id="hero" class="section reveal">
+  <span class="hero-emoji">
+    <div class="bubble-cluster">
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+      <div class="bubble b4"></div>
+      <div class="bubble b5"></div>
+    </div>
+  </span>
+    <div class="hero-title-wrap">
+      <span class="ht-grad">Fl</span><span class="eye-pair"><span class="kawaii-eye"></span><span class="kawaii-eye"></span></span><span class="ht-grad">dSight User Guide</span>
+    </div>
+    <p class="hero-sub">Everything you need to know to simulate floods, analyze risk, replay typhoons, and understand every kawaii detail of the app.</p>
+    <div class="hero-chips">
+      <span class="chip chip-water">🏙️ 4 Real Cities</span>
+      <span class="chip chip-lavender">🤖 AI Forecasts</span>
+      <span class="chip chip-coral">🌀 Typhoon Replay</span>
+      <span class="chip chip-mint">📊 Real SRTM Data</span>
+      <span class="chip chip-sun">🐟 Kawaii Mascots</span>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">💡</span>
+      <p><strong>Two ways to use this guide:</strong> Read it top-to-bottom as a full tutorial, or jump straight to any feature using the sidebar on the left. Each section stands on its own.</p>
+    </div>
+  </section>
+
+  <!-- ── QUICK START ── -->
+  <section id="quickstart" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🚀</div>
+      <div>
+        <span class="section-num">Getting Started</span>
+        <h2 class="section-title">Quick Start — Up in 60 Seconds</h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Open floodsight_v22.html in your browser</div>
+          <p>Works best in Chrome or Edge. Just double-click the file or drag it into a browser tab. No server, no install, no internet required for the simulation itself.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Pick a city from the header pills</div>
+          <p>Click <strong>Tainan</strong>, <strong>Taipei</strong>, <strong>Kaohsiung</strong>, or <strong>Hualien</strong> to load real elevation data for that city. The 3D terrain rebuilds instantly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Drag the Water Level slider</div>
+          <p>On the left panel, move the <strong>Water Level</strong> slider upward. Watch the 3D terrain flood in real time — buildings submerge, districts change color, the fish swims higher.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Toggle to City Map view</div>
+          <p>Click the <strong>Map</strong> button in the center panel header. You'll see districts fill with an animated ink-drop wipe, evacuation routes appear, and population data update.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Enable Auto-Run for a live demo</div>
+          <p>Click <strong>▶ Auto Run</strong> on the left panel. The flood rises automatically — great for presentations. Click again to stop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SIMULATION CONTROLS ── -->
+  <section id="controls" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🎛️</div>
+      <div>
+        <span class="section-num">Left Panel</span>
+        <h2 class="section-title">Simulation Controls</h2>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--txt2);margin-bottom:20px;line-height:1.7;">Every slider feeds into the real physics engine. Changes propagate across the 3D view, city map, population risk, and AI forecast simultaneously.</p>
+
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">💧 Water Level</span><span class="slider-demo-val">0 – 100 %</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:30%"></div></div>
+      <p class="slider-desc">The primary flood control. Represents metres above baseline (0–10m). At ~25% low-lying streets flood. At 55%+ most of the basin is submerged. At 80%+ critical alert triggers and Suki-chan turns red.</p>
+    </div>
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">🌧️ Rain Rate</span><span class="slider-demo-val">0 – 100 mm/h</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:55%"></div></div>
+      <p class="slider-desc">Feeds into Manning's equation for discharge (Q = A·R²/³·S½/n). Higher rain adds surface runoff. Above ~50mm/h wind particles appear and wave intensity increases automatically.</p>
+    </div>
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">💨 Wind Speed</span><span class="slider-demo-val">0 – 100 km/h</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:40%"></div></div>
+      <p class="slider-desc">Above ~4 km/h, translucent wind streak particles sweep across both the 3D canvas and city map. At typhoon levels (>80) the streaks become dense and dramatic.</p>
+    </div>
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">🌡️ Temperature</span><span class="slider-demo-val">-10 – 45 °C</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:65%"></div></div>
+      <p class="slider-desc">Below 0°C a cold alert banner appears on the 3D canvas. Used in the Penman-Monteith evapotranspiration equation that affects how fast water drains vs evaporates.</p>
+    </div>
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">〰️ Wave Intensity</span><span class="slider-demo-val">0 – 100</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:20%"></div></div>
+      <p class="slider-desc">Controls how much the water surface oscillates. Higher values create more dramatic foam at the flood boundary, larger ripple rings, and more wave-offset on the water tiles.</p>
+    </div>
+    <div class="slider-demo">
+      <div class="slider-demo-top"><span class="slider-demo-name">💦 Soil Saturation</span><span class="slider-demo-val">0 – 100 %</span></div>
+      <div class="slider-track"><div class="slider-thumb" style="left:45%"></div></div>
+      <p class="slider-desc">Used in the Horton infiltration equation and SCS Curve Number. At 100% the soil is fully saturated — all rain becomes immediate runoff with no absorption, worsening floods dramatically.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>▶ Auto Run</div>
+        <p>Automatically raises the water level from 0 to 100% and loops back. Ideal for presentations, demos, or showing a class the full flood cycle without touching anything. Press again to stop.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>⚡ Apply Live Weather</div>
+        <p>Pulls real-time data from Taiwan's Central Weather Administration (CWA) and syncs all sliders — rainfall, wind, temperature — to actual current conditions outside. Requires internet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CITIES ── -->
+  <section id="cities" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🏙️</div>
+      <div>
+        <span class="section-num">Header Pills</span>
+        <h2 class="section-title">City Locations</h2>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--txt2);margin-bottom:20px;line-height:1.7;">Each city uses real SRTM 30-metre Digital Elevation Model data — the same satellite elevation data used by professional GIS systems. The 36×36 grid is bilinearly upsampled to 72×72 for smooth rendering.</p>
+    <div class="city-grid">
+      <div class="city-pill"><span class="c-flag">🌆</span><span class="c-name">Taipei Metro</span><span class="c-note">Dense skyscrapers, Danshui River basin</span></div>
+      <div class="city-pill"><span class="c-flag">🌊</span><span class="c-name">Tainan Basin</span><span class="c-note">Low-lying flood plains, rice fields</span></div>
+      <div class="city-pill"><span class="c-flag">⚓</span><span class="c-name">Kaohsiung Port</span><span class="c-note">Coastal harbour, industrial zones</span></div>
+      <div class="city-pill"><span class="c-flag">🏔️</span><span class="c-name">Hualien Coast</span><span class="c-note">Dramatic cliffs, Taroko foothills</span></div>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">🏙️</span>
+      <p><strong>Taipei</strong> loads 95 buildings including tall glass skyscrapers with antenna lights. Other cities get fewer, smaller buildings appropriate to their density. Roads and tree counts also adapt per city.</p>
+    </div>
+  </section>
+
+  <!-- ── VIEW MODES ── -->
+  <section id="views" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">👁️</div>
+      <div>
+        <span class="section-num">Center Panel</span>
+        <h2 class="section-title">View Modes</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🗻 3D Isometric View</div>
+        <p>The default view. A real-time isometric render of the terrain with water, buildings, trees, and roads. The view angle can be adjusted with the angle slider at the bottom of the center panel.</p>
+        <div class="badge-list"><span class="badge badge-blue">Real terrain</span><span class="badge badge-purple">Live flood</span><span class="badge badge-green">Buildings + trees</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🗺️ City Map View</div>
+        <p>A top-down stylized city map showing districts, rivers, roads, evacuation routes, and shelters. Districts flood with animated ink-drop color wipes. Switch using the Map/3D toggle buttons.</p>
+        <div class="badge-list"><span class="badge badge-blue">District risk</span><span class="badge badge-coral">Evacuation routes</span><span class="badge badge-green">Population data</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3D VIEW ── -->
+  <section id="3dview" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🗻</div>
+      <div>
+        <span class="section-num">Center Canvas</span>
+        <h2 class="section-title">3D Isometric View — All Details</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🎨 Terrain Colors</div>
+        <table class="feat-table">
+          <tr><td>🟡 Pale yellow</td><td>Sea-level mudflat / tidal areas</td></tr>
+          <tr><td>🟢 Light green</td><td>Lowland rice fields (Tainan basin)</td></tr>
+          <tr><td>🟩 Mid green</td><td>Low hills</td></tr>
+          <tr><td>🌿 Dark green</td><td>Mountain forest</td></tr>
+          <tr><td>🟫 Brown</td><td>Rocky highland</td></tr>
+          <tr><td>⬜ White-grey</td><td>Snow / peaks (Taroko, Yushan)</td></tr>
+          <tr><td>🔵 Blue</td><td>Flooded — darker = deeper water</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🏙️ Buildings</div>
+        <p><strong>Skyscrapers</strong> (Taipei): Steel-blue glass facades, window grids, metal antenna with a blinking red light. Taller buildings have spires.</p>
+        <p><strong>Regular buildings</strong>: Concrete coloring in warm greys, small window dots that are individually lit or dark based on a seed value.</p>
+        <p>All buildings <strong>disappear when submerged</strong> by rising water — they're correctly hidden below the flood surface.</p>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>✨ Water Caustics</div>
+        <p>In flooded areas, Voronoi-style light patches swim and shimmer — simulating sunlight refracting through moving water from above.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🔭 Tilt-Shift</div>
+        <p>The top 30% and bottom 28% of the 3D canvas have soft gradient blur overlays, making the terrain look like a real miniature model.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌊 Foam Front</div>
+        <p>White pulsing ellipses appear at the exact boundary where land meets flood — the wave front. Intensity scales with wave intensity slider.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>💧 Ripple Rings</div>
+        <p>Circular rings spawn at random flooded positions, expand, then fade. Frequency and size scale with flood depth.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌳 Trees</div>
+        <p>Three types: <strong>Pine</strong> (stacked triangles), <strong>Round</strong> (fluffy gradient sphere), <strong>Palm</strong> (arched fronds). Disappear when flooded.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🛣️ Roads</div>
+        <p>Roads have a base stripe and animated traveling center-lane dashes. Taipei has 8 roads; other cities have 4. Roads fade when submerged.</p>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:6px;">
+      <span style="font-size:1.2rem;flex-shrink:0;">⚠️</span>
+      <p><strong>View Angle slider:</strong> At the bottom of the center panel, dragging this rotates the isometric perspective from flat-top (0°) to steep-side (60°). Default is 45° for the classic isometric look.</p>
+    </div>
+  </section>
+
+  <!-- ── CITY MAP ── -->
+  <section id="citymap" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🗺️</div>
+      <div>
+        <span class="section-num">Map View</span>
+        <h2 class="section-title">City Map — All Details</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌊 Ink-Drop Flood Fill</div>
+        <p>When water rises, each district doesn't instantly change color. Instead, a circular radial wipe grows from the district's center — like an ink drop spreading in water. The wipe edge pulses with an animated shimmer ring.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🚗 Evacuation Routes</div>
+        <p><strong>Green dashes</strong> travel along open routes — the dash speed shows urgency. <strong>Amber</strong> = caution, slower dashes. <strong>Red / static</strong> = route blocked by flooding. Updates live as water level changes.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🏥 Shelter Markers</div>
+        <p>Shelter icons pulse with expanding green rings showing they are active and accepting evacuees. Clicking them shows capacity and status in the evacuation panel.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>⚡ Danger Zone Pulses</div>
+        <p>Severely flooded zones emit double concentric radar ping rings — red for severe, amber for moderate. Ring speed and size scale with how flooded that zone is.</p>
+      </div>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">🌡️</span>
+      <p><strong>Population Heatmap:</strong> Toggle the heatmap overlay button to see a cyan gradient layer showing population density. Denser areas glow brighter — this helps identify where flood impact is worst.</p>
+    </div>
+  </section>
+
+  <!-- ── LIVE WEATHER ── -->
+  <section id="weather" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🌤️</div>
+      <div>
+        <span class="section-num">Right Panel → Weather Card</span>
+        <h2 class="section-title">Live Weather</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-dot"></span>How It Works</div>
+      <p>FloodSight connects to Taiwan's <strong>Central Weather Administration (CWA)</strong> API on load. The four weather values update in real time. The LIVE badge pulses green when connected.</p>
+    </div>
+    <div class="grid-2" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌧️ Animated SVG Icons</div>
+        <p>Each weather field has a hand-crafted animated SVG icon:<br>
+        • <strong>Rain</strong>: Three drops fall and loop with staggered timing<br>
+        • <strong>Wind</strong>: Three lines scroll left continuously<br>
+        • <strong>Temperature</strong>: Sun with 8 rays spinning<br>
+        • <strong>Humidity</strong>: Teardrop that pulses/breathes</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>⚡ Apply to Simulation</div>
+        <p>The <strong>"Apply Live Weather to Sim"</strong> button takes the current CWA readings and pushes them directly into all simulation sliders. This lets you simulate the current real-world flood risk for any of the 4 cities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TYPHOON REPLAY ── -->
+  <section id="typhoon" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🌀</div>
+      <div>
+        <span class="section-num">Right Panel → Typhoon Card</span>
+        <h2 class="section-title">Historical Typhoon Replay</h2>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="kawaii-box">
+        <span class="k-emoji">🌪️</span>
+        <div class="k-title">Typhoon Morakot</div>
+        <p>2009 · 145 km/h · 2,777mm rain · 673 deaths. The deadliest typhoon in Taiwan's modern history.</p>
+      </div>
+      <div class="kawaii-box">
+        <span class="k-emoji">🌊</span>
+        <div class="k-title">Typhoon Nari</div>
+        <p>2001 · 120 km/h · 1,403mm rain. Famous for flooding Taipei's entire MRT underground network.</p>
+      </div>
+      <div class="kawaii-box">
+        <span class="k-emoji">💨</span>
+        <div class="k-title">Typhoon Herb</div>
+        <p>1996 · Historic intensity. Used to show long-term baseline comparison against modern events.</p>
+      </div>
+    </div>
+    <div class="steps" style="margin-top:20px;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Click a typhoon card to select it</div>
+          <p>The selected card highlights. The 3D view loads the typhoon's historical track overlay immediately.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Press ▶ Play</div>
+          <p>The typhoon eye — a rotating spiral with concentric rings — begins moving along its historical path across the 3D canvas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Adjust replay speed (0.5× – 3×)</div>
+          <p>Slow it down to study the path carefully, or speed it up for a quick overview. The track trail draws behind the eye as it moves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── AI FORECAST ── -->
+  <section id="ai" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🤖</div>
+      <div>
+        <span class="section-num">Right Panel → AI Card</span>
+        <h2 class="section-title">AI Flood Forecast</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-dot"></span>Powered by Claude AI (Anthropic)</div>
+      <p>The AI forecast reads your current simulation state — water level, rain rate, wind speed, temperature, city, saturation — and generates a natural-language flood risk assessment using the Anthropic API.</p>
+      <p>The forecast includes: overall risk level, which districts are most vulnerable, evacuation timing recommendations, infrastructure risk (roads, hospitals, shelters), and a 6-hour outlook.</p>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">🤖</span>
+      <p><strong>Best practice:</strong> Set your sliders to a realistic scenario first, then click <strong>"Generate Forecast"</strong>. The AI reads all parameters simultaneously and tailors the forecast to that exact combination.</p>
+    </div>
+  </section>
+
+  <!-- ── POPULATION ── -->
+  <section id="population" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">👥</div>
+      <div>
+        <span class="section-num">Right Panel → Population Card</span>
+        <h2 class="section-title">Population & Risk Analysis</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>📊 District Risk Table</div>
+        <p>Shows each district with flood depth, risk level (Low / Moderate / Severe), population count, and evacuation priority. Rows highlight red/amber as districts flood. Updates live with every slider movement.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>💰 Damage Estimator</div>
+        <p>Uses Manning's equation discharge values and the SCS Curve Number method to calculate estimated economic damage in USD. The number springs up with a bounce animation when it changes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EVACUATION ── -->
+  <section id="evacuation" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🚗</div>
+      <div>
+        <span class="section-num">Right Panel → Evacuation Card</span>
+        <h2 class="section-title">Evacuation Routing</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-dot"></span>How Routes Update</div>
+      <p>As the water level rises, the app evaluates each evacuation route against the current flood extent. Routes that pass through flooded zones automatically switch from green → amber → red (blocked). This happens in real time.</p>
+    </div>
+    <div class="grid-3" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🟢 Open Route</div>
+        <p>Traveling dashes animate along the road at speed — the motion shows urgency. Fully passable for evacuation.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🟡 Caution Route</div>
+        <p>Slower dashes, amber color. Passable but conditions are deteriorating. Use with care.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🔴 Blocked Route</div>
+        <p>Static — no animation. The road is impassable. Shelter markers pulse nearby to show alternate safe zones.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WATER TANK ── -->
+  <section id="tanklevel" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">💧</div>
+      <div>
+        <span class="section-num">Left Panel → Water Level Card</span>
+        <h2 class="section-title">Water Level Monitor (Tank)</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🐟 Blue Fish (Main)</div>
+        <p>Drawn frame-by-frame using canvas — <strong>real S-curve body wave swimming</strong>, not just sliding. The spine is computed per frame with sine-wave amplitude increasing toward the tail. Has a dorsal fin, pectoral fin, tail fan, and shiny eye. Turns pink/red at high flood levels. Flips direction correctly using CSS scaleX(-1).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🐠 Orange Clownfish (Companion)</div>
+        <p>A smaller companion fish swimming at a different speed (3.4s vs 5s cycle) and higher depth position. Orange body with two white vertical stripes, orange tail fan — distinct from the main fish so they feel like actual companions sharing the tank.</p>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:14px;">
+      <span class="tip-icon">💡</span>
+      <p>The <strong>gauge bar</strong> below the tank uses a <strong>spring animation</strong> — when the value changes it overshoots slightly then settles back, just like a real physical gauge. The numeric readout shows metres above baseline.</p>
+    </div>
+  </section>
+
+  <!-- ── KAWAII FEATURES ── -->
+  <section id="kawaii" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🌸</div>
+      <div>
+        <span class="section-num">Visual Charm</span>
+        <h2 class="section-title">Kawaii & Ambient Features</h2>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title"><span class="card-dot"></span>🌸 Sakura Petal Rain</div>
+      <p>When the flood level is low (below ~25%), up to 8 soft pink cherry blossom petals drift diagonally across the screen from top-left to bottom-right. Each petal is a real 5-petal flower drawn with canvas ellipses and a radial gradient, with gentle sinusoidal sway. As the flood rises the petals fade out and stop spawning — calm gives way to the storm. They return automatically when you lower the water level.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>👁️ FloodSight OO Eyes</div>
+        <p>The two <strong>O's</strong> in "FloodSight" in the header are real animated kawaii eyes — white eyeball with a blue gradient pupil and a white specular shine. They blink with a scaleY squish every 2 seconds. During AR activation they enter scanning mode. At critical flood levels they cry with animated tear drops falling.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>✨ Click Effects</div>
+        <p>Every click on the page produces: an expanding <strong>cyan ripple ring</strong>, an inner <strong>bloom fill</strong>, a <strong>radar ping</strong> circle, and 6 small <strong>sparkle</strong> particles that scatter outward with rotation — plus a water droplet sound effect.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🫧 Card Bubbles</div>
+        <p>Every card in the UI has 8–13 transparent glass bubbles floating upward in the background. Each bubble has a white specular highlight, a gradient interior, and an outer cyan glow — visible as subtle pearl-like spheres drifting behind the content.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌊 Animated Nav Icons</div>
+        <p>The bottom navigation icons are styled as glass bubble spheres with white top-left reflections. On hover they morph from circles to pill shapes while keeping the gradient and reflections. The divider between nav sections has a shimmer wave and a small animated 💧 drop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DROP ICON ── -->
+  <section id="dropicon" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">😊</div>
+      <div>
+        <span class="section-num">Header → Water Drop Icon</span>
+        <h2 class="section-title">Drop Icon — 10 Expressions</h2>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--txt2);margin-bottom:18px;line-height:1.7;">The water drop icon next to the FloodSight logo cycles through 10 different facial expressions every 4.5 seconds. Each expression independently animates the pupils, eyelids, mouth shape, blush size, and blush color. It also blinks every 2 seconds on its own timer. <strong>Click it</strong> to hear a kawaii boing sound!</p>
+    <div class="expr-grid">
+      <div class="expr-card"><span class="expr-ico">😊</span><span class="expr-name">Happy</span></div>
+      <div class="expr-card"><span class="expr-ico">🤔</span><span class="expr-name">Curious</span></div>
+      <div class="expr-card"><span class="expr-ico">😉</span><span class="expr-name">Wink</span></div>
+      <div class="expr-card"><span class="expr-ico">🥰</span><span class="expr-name">Love</span></div>
+      <div class="expr-card"><span class="expr-ico">😴</span><span class="expr-name">Sleepy</span></div>
+      <div class="expr-card"><span class="expr-ico">😲</span><span class="expr-name">Surprised</span></div>
+      <div class="expr-card"><span class="expr-ico">🙈</span><span class="expr-name">Shy</span></div>
+      <div class="expr-card"><span class="expr-ico">🧐</span><span class="expr-name">Thinking</span></div>
+      <div class="expr-card"><span class="expr-ico">😨</span><span class="expr-name">Scared</span></div>
+      <div class="expr-card"><span class="expr-ico">😑</span><span class="expr-name">Bored</span></div>
+    </div>
+    <div class="tip" style="margin-top:16px;">
+      <span class="tip-icon">👁️</span>
+      <p>Each expression changes <strong>pupil size, pupil position, lid height, mouth path, blush rx/ry, and blush color</strong> independently — all driven by SVG attribute animation with smooth resets between states.</p>
+    </div>
+  </section>
+
+  <!-- ── MASCOT ── -->
+  <section id="mascot" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🐠</div>
+      <div>
+        <span class="section-num">Right Panel → Mascot Card</span>
+        <h2 class="section-title">Suki-chan — The Mascot</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🎨 Mood Colors</div>
+        <table class="feat-table">
+          <tr><td>🔵 Blue</td><td>Safe — water level 0–27%</td></tr>
+          <tr><td>🩷 Light pink</td><td>Warning — water level 28–55%</td></tr>
+          <tr><td>🔴 Red-pink</td><td>Critical — water level above 70%</td></tr>
+        </table>
+        <p style="margin-top:10px;">The body gradient, tail color, fin color, eye pupil color, and halo color all shift together as flood rises.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>💬 Speech Bubble</div>
+        <p>Suki-chan's speech bubble gives contextual advice based on the current conditions — water level, rain rate, and wind speed. Messages range from "Water levels are normal! Stay safe! ✦" to "Critical flood! Please evacuate immediately! ⚠️"</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="card-title"><span class="card-dot"></span>🎵 Idle Animations (after 30 seconds of no interaction)</div>
+      <p>Leave the app untouched for 30 seconds and Suki-chan randomly picks one of two special animations:</p>
+      <div class="grid-2" style="margin-top:12px;">
+        <div style="background:rgba(189,232,255,.2);border:1.5px solid rgba(109,200,232,.3);border-radius:14px;padding:14px;">
+          <div style="font-family:'Fredoka One',cursive;font-size:.85rem;margin-bottom:6px;">🌀 Spin Mode</div>
+          <p style="font-size:.75rem;color:var(--txt2);line-height:1.6;">The entire fish rotates continuously on the canvas. Rainbow-colored sparkle symbols (✦) orbit outward as she spins. Lasts 4 seconds then returns to normal.</p>
+        </div>
+        <div style="background:rgba(255,183,197,.15);border:1.5px solid rgba(255,183,197,.4);border-radius:14px;padding:14px;">
+          <div style="font-family:'Fredoka One',cursive;font-size:.85rem;margin-bottom:6px;">😺 :3 Cat Face</div>
+          <p style="font-size:.75rem;color:var(--txt2);line-height:1.6;">Eyes become a cat-like arc squint, mouth curves into a small :3 shape, and blush deepens. Cute and disarming. Lasts 4 seconds then returns to normal.</p>
+        </div>
+      </div>
+      <div class="tip" style="margin-top:12px;">
+        <span class="tip-icon">💡</span>
+        <p>Click anywhere or move a slider to <strong>reset the idle timer</strong>. The 30-second countdown starts fresh every time you interact with the app.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CURSOR ── -->
+  <section id="cursor" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">✨</div>
+      <div>
+        <span class="section-num">Ambient Effects</span>
+        <h2 class="section-title">Cursor & Visual Effects</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>💧 Day Mode Trail</div>
+        <p>The cursor is a custom 💧 emoji. As you move it, a canvas overlay renders tiny glass water-drop particles that fall behind with gravity. Each drop has a white specular highlight, a cyan-blue radial gradient, and fades out within ~0.6 seconds. Max 9 particles at any time — subtle, not overwhelming.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>⭐ Night Mode Trail</div>
+        <p>Switch to night mode and the water drops transform into <strong>twinkling star particles</strong>. Each star is a 4 or 5-pointed polygon with a crosshair glow, in randomized blue, purple, and cyan hues. Stars drift instead of falling — they float in all directions with slight momentum.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="card-title"><span class="card-dot"></span>🖱️ Click Effects — 4 Layers</div>
+      <div class="grid-2">
+        <div>
+          <p><strong>1. Ripple Ring</strong> — An expanding cyan glass ring that grows to 5.5× size and fades over 650ms.</p>
+          <p style="margin-top:8px;"><strong>2. Bloom Fill</strong> — A simultaneous inner fill that pulses outward from the click point.</p>
+        </div>
+        <div>
+          <p><strong>3. Radar Ping</strong> — A larger radar-style expanding circle in cyan/lavender, fades over 1 second.</p>
+          <p style="margin-top:8px;"><strong>4. Sparkles</strong> — 6 tiny symbols scatter with rotation (◦ · ° ˚ ∘ ⊙) in all directions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NIGHT MODE ── -->
+  <section id="nightmode" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🌙</div>
+      <div>
+        <span class="section-num">Header Toggle</span>
+        <h2 class="section-title">Night Mode</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-dot"></span>What Changes in Night Mode</div>
+      <p>Click the 🌙 moon button in the header to activate. Every visual layer adapts:</p>
+      <div class="badge-list" style="margin-top:10px;">
+        <span class="badge badge-purple">Deep navy cards</span>
+        <span class="badge badge-blue">Cyan border glows</span>
+        <span class="badge badge-blue">Starfield background</span>
+        <span class="badge badge-purple">Shooting stars</span>
+        <span class="badge badge-blue">Star cursor trail</span>
+        <span class="badge badge-purple">Slower logo shimmer</span>
+        <span class="badge badge-blue">Blue nav bubbles</span>
+        <span class="badge badge-purple">Dark mascot bubble</span>
+      </div>
+      <p style="margin-top:12px;">The starfield background is a canvas with ~150 twinkling stars of different sizes. Occasionally a shooting star streaks across. In night mode, card ghost bubbles shift from cyan to deep blue tinting.</p>
+    </div>
+  </section>
+
+  <!-- ── SOUND ── -->
+  <section id="sound" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">🔊</div>
+      <div>
+        <span class="section-num">Audio Engine</span>
+        <h2 class="section-title">Sound Engine</h2>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--txt2);margin-bottom:16px;line-height:1.7;">All sounds are synthesized with the Web Audio API — no audio files are downloaded. Each sound is generated from oscillators and filters in real time.</p>
+    <table class="feat-table" style="background:rgba(255,255,255,.5);border-radius:16px;overflow:hidden;border:1.5px solid rgba(200,180,230,.25);">
+      <thead><tr><th>Sound</th><th>How It's Made</th><th>How to Control</th></tr></thead>
+      <tbody>
+        <tr><td>🌧️ Rain</td><td>Pink noise filtered through a bandpass — becomes heavier with rain rate slider</td><td>Toggle in sound settings panel</td></tr>
+        <tr><td>🌊 Waves</td><td>Low sine oscillator with LFO modulation — pitch rises with water level</td><td>Toggle in sound settings panel</td></tr>
+        <tr><td>💨 Wind</td><td>White noise through a high-pass filter — intensity tied to wind speed slider</td><td>Toggle in sound settings panel</td></tr>
+        <tr><td>🚨 Alert</td><td>Descending arpeggio pattern — triggers when water crosses 75%</td><td>Toggle in sound settings panel</td></tr>
+        <tr><td>💧 Click</td><td>3-layer synthesis: bright pluck (520Hz) + hollow thud (180Hz) + high sparkle (2200Hz)</td><td>Every click on the canvas</td></tr>
+        <tr><td>🎵 Kawaii Boing</td><td>Ascending sine sweep — the "boing" of the drop icon</td><td>Click the 💧 drop icon in header</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box" style="margin-top:14px;">
+      <span style="font-size:1.2rem;flex-shrink:0;">🔈</span>
+      <p>Browsers require a user gesture before allowing audio. <strong>Click anywhere on the page first</strong> — after that first interaction, all sounds work. If sounds are silent, try clicking the canvas once.</p>
+    </div>
+  </section>
+
+  <!-- ── AR MODE ── -->
+  <section id="ar" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">📱</div>
+      <div>
+        <span class="section-num">Header → AR Button</span>
+        <h2 class="section-title">AR Mode</h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Open on a mobile device</div>
+          <p>AR works on iOS Safari (14+) and Android Chrome. Open the HTML file on your phone's browser.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Tap the AR button in the header</div>
+          <p>A step-by-step instruction modal opens. Follow the on-screen guide to activate your device camera.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Point at a flat surface</div>
+          <p>Point your camera at a table, floor, or flat surface. The flood simulation projects as an AR overlay on the detected plane.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REPORT ── -->
+  <section id="report" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">📄</div>
+      <div>
+        <span class="section-num">Header → Report Button</span>
+        <h2 class="section-title">Flood Report Export</h2>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-dot"></span>What's in the Report</div>
+      <p>The generated report includes the current simulation timestamp, city name and coordinates, all slider values, the full district risk table with depths and population counts, the economic damage estimate, and the last AI forecast if one was generated. It opens as a print-ready HTML page styled like a formal emergency report.</p>
+    </div>
+    <div class="tip">
+      <span class="tip-icon">📄</span>
+      <p><strong>Pro tip:</strong> Generate an AI forecast first, then export the report — the AI text will be included in the document, giving you a complete picture of both the data and the AI's analysis.</p>
+    </div>
+  </section>
+
+  <!-- ── PRO TIPS ── -->
+  <section id="tips" class="section reveal">
+    <div class="section-header">
+      <div class="section-icon">💡</div>
+      <div>
+        <span class="section-num">Advanced Usage</span>
+        <h2 class="section-title">Pro Tips & Tricks</h2>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🎓 For Presentations</div>
+        <p>Start with Tainan at 0% flood. Enable Auto-Run. Switch to City Map view. The audience watches districts flood in real time with the ink-drop animation. Pause at 60% to discuss the evacuation route status changes.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🔬 For Research</div>
+        <p>Set Rain Rate to 80 + Saturation to 100 to simulate a worst-case scenario with no soil absorption. Then use "Apply Live Weather" to compare the simulated worst-case against today's actual conditions.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌀 Typhoon Scenario</div>
+        <p>Select Typhoon Morakot replay, then manually set Wind Speed to 100 and Rain Rate to 100. The 3D view will show intense wind particles, foam, and wave activity simultaneously with the typhoon eye track.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🌙 Night Demo</div>
+        <p>Switch to night mode for evening presentations. The starfield background, cyan-glowing cards, and star cursor trail give the app a dramatic mission-control aesthetic that photographs beautifully.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>📊 City Comparison</div>
+        <p>Set Water Level to 40%, note the number of flooded districts in Tainan. Then switch to Taipei and keep the same level — compare how the elevated terrain in Taipei's mountains protects it vs Tainan's flat basin.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-dot"></span>🐟 Easter Eggs</div>
+        <p>Leave the app untouched for 30 seconds to see Suki-chan's idle animation. Click the 💧 drop icon in the header for a kawaii boing sound. Watch the drop icon carefully — it cycles through 10 different facial expressions every 4.5 seconds.</p>
+      </div>
+    </div>
+
+    <div class="kawaii-box" style="margin-top:24px;">
+      <span class="k-emoji">
+        <div class="bubble-cluster" style="width:70px;height:70px;margin:0 auto 10px;">
+          <div class="bubble b1" style="width:40px;height:40px;bottom:4px;left:10px;"></div>
+          <div class="bubble b2" style="width:26px;height:26px;top:6px;left:28px;"></div>
+          <div class="bubble b3" style="width:16px;height:16px;top:20px;right:4px;"></div>
+          <div class="bubble b4" style="width:11px;height:11px;bottom:14px;right:6px;"></div>
+          <div class="bubble b5" style="width:9px;height:9px;top:2px;left:8px;"></div>
+        </div>
+      </span>
+      <div class="k-title">Made with ♡ by Ipsa</div>
+      <p>FloodSight is a 2026 project combining real hydrological physics, SRTM satellite elevation data, live weather API integration, and AI-powered analysis — wrapped in a kawaii aesthetic that makes serious flood science approachable and engaging.</p>
+      <div class="badge-list" style="justify-content:center;margin-top:14px;">
+        <span class="badge badge-blue">Manning's Equation</span>
+        <span class="badge badge-purple">SCS Curve Number</span>
+        <span class="badge badge-green">Horton Infiltration</span>
+        <span class="badge badge-coral">Penman-Monteith ET</span>
+        <span class="badge badge-sun">Reynolds + Froude</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+  <div>
+    <div class="footer-logo">FloodSight <span style="display:inline-flex;gap:2px;vertical-align:middle;margin-left:4px;">
+      <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 33% 30%,rgba(255,255,255,0.85),rgba(109,200,232,0.5));border:1px solid rgba(255,255,255,0.7);animation:bubbleShimmer 3s ease-in-out infinite;"></span>
+      <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 33% 30%,rgba(255,255,255,0.85),rgba(201,184,255,0.5));border:1px solid rgba(255,255,255,0.7);animation:bubbleShimmer 3.5s ease-in-out infinite .6s;margin-top:1px;"></span>
+      <span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 33% 30%,rgba(255,255,255,0.85),rgba(109,200,232,0.4));border:1px solid rgba(255,255,255,0.6);animation:bubbleShimmer 4s ease-in-out infinite 1.2s;"></span>
+    </span></div>
+    <div style="font-size:.62rem;color:var(--txt2);margin-top:3px;">AI Flood Intelligence · 2026</div>
+  </div>
+  <div class="footer-note">
+    <div>Complete User Guide · v22</div>
+    <div style="margin-top:3px;">Made with ♡ by Ipsa</div>
+  </div>
+</footer>
+
+<button id="back-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── CURSOR (cycling emojis) ──
+const kur = document.getElementById('kursor');
+const cursorEmojis = ['💧','🐟','🫧','🐠','🌊','🐡','🫧','💧','🐟'];
+let cursorIdx = 0;
+// Instant 1:1 cursor — no calc(), no lag
+document.addEventListener('mousemove', e => {
+  kur.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+}, { passive: true });
+// Change emoji only on click
+document.addEventListener('click', () => {
+  cursorIdx = (cursorIdx + 1) % cursorEmojis.length;
+  kur.textContent = cursorEmojis[cursorIdx];
+});
+
+// ── SCROLL PROGRESS ──
+const pb = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  pb.style.width = Math.min(100, pct) + '%';
+  document.getElementById('back-top').classList.toggle('show', window.scrollY > 300);
+});
+
+// ── REVEAL ON SCROLL ──
+const revealEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+    }
+  });
+}, { threshold: 0.08 });
+revealEls.forEach(el => ro.observe(el));
+
+// ── ACTIVE TOC LINK ──
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc-link');
+const sro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.35 });
+sections.forEach(s => sro.observe(s));
+
+// ── FLOATING BG ──
+const bgItems = ['🐟','💧','🐠','〰️','🌸','🌀','☁️','🌧️','⭐','🌙'];
+const bf = document.getElementById('bg-floats');
+for(let i = 0; i < 22; i++){
+  const d = document.createElement('span');
+  d.className = 'float-item';
+  d.textContent = bgItems[i % bgItems.length];
+  d.style.cssText = `left:${Math.random()*100}%;animation-duration:${12+Math.random()*18}s;animation-delay:${-Math.random()*20}s;font-size:${0.9+Math.random()*1.2}rem;`;
+  bf.appendChild(d);
+}
+
+// ── AMBIENT RISING BUBBLES ──
+(function(){
+  const styleEl = document.createElement('style');
+  styleEl.textContent = '@keyframes ambientRise{0%{transform:translateY(0) scale(1);opacity:0;}10%{opacity:1;}85%{opacity:0.6;}100%{transform:translateY(-110vh) scale(0.6);opacity:0;}}';
+  document.head.appendChild(styleEl);
+  const hues = ['rgba(189,232,255,IDX)','rgba(201,184,255,IDX)','rgba(184,242,224,IDX)','rgba(255,183,197,IDX)'];
+  function makeBubble(){
+    const b = document.createElement('div');
+    const sz = Math.round(8 + Math.random()*26);
+    const x = Math.round(Math.random()*98);
+    const dur = (8 + Math.random()*12).toFixed(1);
+    const delay = (Math.random()*4).toFixed(1);
+    const alpha = (0.10 + Math.random()*0.16).toFixed(2);
+    const col = hues[Math.floor(Math.random()*hues.length)].replace('IDX', alpha);
+    const borderA = (parseFloat(alpha)+0.18).toFixed(2);
+    b.setAttribute('style',
+      'position:fixed;left:'+x+'vw;bottom:-'+(sz+12)+'px;'+
+      'width:'+sz+'px;height:'+sz+'px;'+
+      'border-radius:50%;pointer-events:none;z-index:0;'+
+      'background:radial-gradient(circle at 32% 28%,rgba(255,255,255,0.75) 0%,'+col+' 55%,transparent 100%);'+
+      'border:1px solid rgba(255,255,255,'+borderA+');'+
+      'animation:ambientRise '+dur+'s ease-in '+delay+'s forwards;'
+    );
+    document.body.appendChild(b);
+    setTimeout(function(){ b.remove(); }, (parseFloat(dur)+parseFloat(delay))*1000+400);
+  }
+  for(var i=0;i<10;i++) setTimeout(makeBubble, i*600);
+  setInterval(makeBubble, 1600);
+})();
+
+// ── TWINKLING SPARKLE DOTS ──
+const colors = ['rgba(109,200,232,VAL)','rgba(201,184,255,VAL)','rgba(255,183,197,VAL)','rgba(184,242,224,VAL)','rgba(255,229,153,VAL)'];
+for(let i=0;i<18;i++){
+  const dot = document.createElement('div');
+  dot.className='sparkle-dot';
+  const sz = 3+Math.random()*5;
+  const col = colors[i%colors.length].replace('VAL',(0.4+Math.random()*.3).toFixed(2));
+  dot.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;background:${col};--tw-dur:${2+Math.random()*3}s;--tw-op:${0.5+Math.random()*.4};animation-delay:${-Math.random()*4}s;`;
+  document.body.appendChild(dot);
+}
+
+// ── WATER RINGS BG ──
+const ringPositions = [[10,20],[80,60],[45,85],[70,15],[25,70]];
+ringPositions.forEach((pos,i) => {
+  const ring = document.createElement('div');
+  ring.className='water-ring';
+  ring.style.cssText=`width:120px;height:120px;left:${pos[0]}vw;top:${pos[1]}vh;margin-left:-60px;margin-top:-60px;--wr-dur:${6+i*2.5}s;animation-delay:${-i*1.8}s;`;
+  document.body.appendChild(ring);
+});
+
+// ── CLICK SPARKLE (enhanced) ──
+document.addEventListener('click', e => {
+  if(e.target.closest('#toc,.toc-link,#back-top,a')) return;
+  const syms = ['◦','·','°','˚','∘','✦','✿','❋','⋆'];
+  const hues = [190,210,300,340,270,160,50];
+  for(let i = 0; i < 8; i++){
+    const s = document.createElement('div');
+    const tx = `translate(${(Math.random()-.5)*70}px,${(Math.random()-.5)*70}px)`;
+    s.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;pointer-events:none;z-index:9997;font-size:${11+Math.random()*8}px;color:hsl(${hues[i%hues.length]},80%,65%);animation:sparkleOut .9s ease-out forwards;animation-delay:${i*.05}s;--tx:${tx};`;
+    s.textContent = syms[i % syms.length];
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1100);
+  }
+  // Card ripple
+  const card = e.target.closest('.card');
+  if(card){
+    const r = card.getBoundingClientRect();
+    const rp = document.createElement('div');
+    rp.className='ripple-circle';
+    rp.style.cssText=`left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;`;
+    card.appendChild(rp);
+    setTimeout(()=>rp.remove(),700);
+  }
+});
+
+// ── SAKURA on manual page ──
+const sc = document.getElementById('sakura-cv');
+const sctx = sc.getContext('2d');
+function rsz(){ sc.width=window.innerWidth; sc.height=window.innerHeight; }
+rsz(); window.addEventListener('resize', rsz);
+
+const petals = [];
+function spawnP(){
+  petals.push({
+    x: Math.random() * sc.width, y: -14,
+    vx: 0.5+Math.random()*.7, vy: 0.7+Math.random()*.5,
+    rot: Math.random()*Math.PI*2, rotV: (Math.random()-.5)*.05,
+    sway: Math.random()*Math.PI*2, size: 4+Math.random()*3.5,
+    alpha: 0.45+Math.random()*.3, hue: 340+Math.random()*20
+  });
+}
+let stk=0;
+(function loop(){
+  sctx.clearRect(0,0,sc.width,sc.height);
+  stk++;
+  if(stk%70===0 && petals.length<7) spawnP();
+  for(let i=petals.length-1;i>=0;i--){
+    const p=petals[i];
+    p.sway+=.022; p.x+=p.vx+Math.sin(p.sway)*.4; p.y+=p.vy; p.rot+=p.rotV;
+    if(p.y>sc.height+20||p.x>sc.width+20){ petals.splice(i,1); continue; }
+    sctx.save(); sctx.globalAlpha=p.alpha; sctx.translate(p.x,p.y); sctx.rotate(p.rot);
+    for(let j=0;j<5;j++){
+      sctx.save(); sctx.rotate(j*Math.PI*2/5);
+      sctx.beginPath(); sctx.ellipse(0,-p.size*.7,p.size*.4,p.size*.7,0,0,Math.PI*2);
+      const g=sctx.createRadialGradient(0,-p.size*.5,0,0,-p.size*.5,p.size);
+      g.addColorStop(0,`hsla(${p.hue},85%,90%,1)`); g.addColorStop(1,`hsla(${p.hue-10},70%,75%,0.5)`);
+      sctx.fillStyle=g; sctx.fill(); sctx.restore();
+    }
+    sctx.beginPath(); sctx.arc(0,0,p.size*.17,0,Math.PI*2);
+    sctx.fillStyle=`hsla(${p.hue-5},70%,78%,0.8)`; sctx.fill();
+    sctx.restore();
+  }
+  requestAnimationFrame(loop);
+})();
+
+// ── STAGGERED CARD ANIMATIONS ──
+document.querySelectorAll('.card').forEach((c,i)=>{
+  c.style.animationDelay=(i*.07)+'s';
+  c.style.animation='fadeUp .6s ease both';
+});
+
+// Pop-in animation delays for chips
+document.querySelectorAll('.chip').forEach((c,i) => c.style.animationDelay = (i*.1)+'s');
+
+// ── BADGE STAGGER ──
+document.querySelectorAll('.badge').forEach((b,i)=>{
+  b.style.animation=`popIn .5s cubic-bezier(.34,1.56,.64,1) ${i*.08}s both`;
+});
+
+</script>
+</body>
+</html>
